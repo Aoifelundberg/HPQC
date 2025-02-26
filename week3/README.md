@@ -1,0 +1,4 @@
+**Part 1:**
+When the described guidlines to run hello_mpi.c are not followed the code will not run. The code was compiled and then run as per directions. Mpi commands muct be run from the command line in a diiferent fashion that serial codes, using mpicc to compile instead of gcc. Once compiled, the code is run by calling mpirun -np [argument], this is not needed for serial code.Serial code just requires the directory of the file followed by the argument. 
+The program run time was processed, I found that with larger arguments the real time was almost half that of the user and sys time. For smaller inputs the real time was similar and sometimes even larger than the user and sys time.
+Comparing this to the serial version of this code, the user, sys, and real time remained less variable and were generally very similar to eachother regardeless of input value. This shows that for large values of input data parallel computing can be of benefit, as the code runs faster.
