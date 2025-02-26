@@ -17,4 +17,12 @@ Check_task separates tasks carried out by each type of node, the client task wil
 This code was optimised by removing some unecessary steps in the code and implementing them into the main branch instead. The prgram calculation essentially performs as follows: num_arg x (((uni_size - 1) x uni_size)/2), this formula was implemented into the main branch to cut down on uneccessary steps.
 
 **Part 3**
+The main steps of the vector_serial program is to input a value which will be checked to ensure validity using check_args, and will then return the input as a vector. 
+Initialise_vector is used to initialise all the elements of the vector taken from check_args.
+Stdlib.h is used for memory allocation (malloc()), conversion and termination. Malloc() is also used as a pointer allocation to store the given argument. 
+sum_vector is used to sum all the elements of the vector and produce an output. 
+Memory cleanup is then performed, the dynamic memory is freed using free(), this prevents memory leaks. Dynamic memory allocation allows for flexible sizing of user input and frees memory after use.
 
+Modifying the code -  the code was made non-trivial by implementing #include <time.h>, this will ensure different results for every run of the code. A random min and max value were assigned within a certain range as per the code to initialise the vector. The program was also modified to disallow non zero vector values. Errors are now accounted for and the code no longer ouputs a zero value, instead it outputs the elements of the vector and the sum. 
+
+Creating a parallel version - This was simply done by parallelising the initialisation and summing of the vector. The initialisign function was parallelised by adding "#pragma omp parallel for", and the summing function was parallelised by adding "#pragma omp parallel for reduction(+:sum)". I found that for very large input values the parallel version of this program performed faster than the serial. User time was significantly smaller for parallel. With small input values, the two programs performed similarly. 
