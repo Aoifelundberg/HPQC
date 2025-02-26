@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 // declares the functions that will be called within main
 // note how declaration lines are similar to the initial line
 // of a function definition, but with a semicolon at the end;
 int check_args(int argc, char **argv);
-void initialise_vector(int vector[], int size, int initial);
+void initialise_vector(int vector[], int size, int min, int max);
 void print_vector(int vector[], int size);
 int sum_vector(int vector[], int size);
+int find_max(int vector[], int size);
+int find_min(int vector[], int size);
+double find_average(int vector[], int size);
 
 int main(int argc, char **argv)
 {
@@ -17,18 +21,31 @@ int main(int argc, char **argv)
 	// creates a vector variable
 	// int my_vector[num_arg]; // suffers issues for large vectors
 	int* my_vector = malloc (num_arg * sizeof(int));
+
+	if (my_vector == NULL) 
+	{
+	fprintf(stderr, "Memory allocation failed!\n");
+	exit(-1);
+	}
+
+	int min_value = 1;
+	int max_value = 10000;
+
 	// and initialises every element to zero
-	initialise_vector(my_vector, num_arg, 0);
+	initialise_vector(my_vector, num_arg, min_value, max_value);
 
 
 	// TODO: put some code here that makes a more meaningful vector
+	printf("Vector elements are:\n");
+	print_vector(my_vector, num_arg);
 
 	// sums the vector
 	int my_sum = sum_vector(my_vector, num_arg);
 
 	// prints the sum
 	printf("Sum: %d\n", my_sum);
-
+	
+	
 	// if we use malloc, must free when done!
 	free(my_vector);
 
@@ -53,13 +70,14 @@ int sum_vector(int vector[], int size)
 }
 
 // defines a function to initialise all values in a vector to a given inital value
-void initialise_vector(int vector[], int size, int initial)
+void initialise_vector(int vector[], int size, int min, int max)
 {
+	srand(time(0));
 	// iterates through the vector
 	for (int i = 0; i < size; i++)
 	{
 		// sets the elements of the vector to the initial value
-		vector[i] = initial;
+		vector[i] = rand() % (max -min +1) + min;
 	}
 }
 
@@ -67,11 +85,13 @@ void initialise_vector(int vector[], int size, int initial)
 void print_vector(int vector[], int size)
 {
 	// iterates through the vector
+
 	for (int i = 0; i < size; i++)
 	{
 		// prints the elements of the vector to the screen
 		printf("%d\n", vector[i]);
 	}
+	printf("\n");
 }
 
 // defines a function that checks your arguments to make sure they'll do what you need
