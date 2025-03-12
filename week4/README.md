@@ -7,3 +7,6 @@ The code was functionalised by segmenting the processes and assigning specific f
 
 # Step 3 #
 The code was modified to include: MPI_Ssend(), MPI_Bsend(), MPI_Rsend() and MPI_Isend(). Upon implementing these changes, the code does appear to send majority of messages before receiving them, however there are still one or two messages being received before being sent. This issue is more prevelant with larger numbers of processors. With less than 10 processors there is generally only one error, with more than 10 the send and receive processes are much more sporadic and the performance is similar to the performance of the program before functionalisation. Based on this, it appears that the modified code would perform better as long as the input number of processors is relatively low, as there are still less errors than previously. 
+
+# Step 4 # 
+After adding in code to time the function it was found that the timing was relatively inconsistant. Times were always <0.0004s, however there was a wide range of time values. More processors did not appear to impact the run time, in fact run time was considerably less for larger inputs in some cases. 
