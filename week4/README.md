@@ -10,3 +10,11 @@ The code was modified to include: MPI_Ssend(), MPI_Bsend(), MPI_Rsend() and MPI_
 
 # Step 4 # 
 After adding in code to time the function it was found that the timing was relatively inconsistant. Times were always <0.0004s, however there was a wide range of time values. More processors did not appear to impact the run time, in fact run time was considerably less for larger inputs in some cases. 
+
+
+## Part 2 ##
+A program named pingpong.c was created which implemented the pseudocode logic as described in the assignment. This program took an input number of pings and calculated the elapsed time and average time per round trip, using send and receive functions. 
+
+2 processors were required to run this program. The number of pings were varied and the output time value did seem to converge slightly with much larger inputs. The smaller the imput number of pings were, the quicker the program ran. 
+
+This program was then modified to take two inputs, this was done in order to create and initialise an array of the variable size. The array was transmitted back and forth between client and root as required, like a ping pong action. The array used incremental values between 8B and 2MiB, the number of elements required were calculated by dividing the number of Bytes by 4. It was divided by 4 as an integer value is 4 Bytes. The formula would be: Total number of elements = Data size/size of element. The number of input elements were plotted against the total time elapsed and the average time taken for one round trip. This was done to find the latency and bandwidth. Latency was detemined by the Y-intercept when the time per round trip was plotted against the number of elements. In this case the latency was 0.00015s. Bandwidth was detemined from the slope of the line created when the total elapsed time taken to run the program was plotted against the number of elements. This bandwidth was determined to be 7.7E-09.
