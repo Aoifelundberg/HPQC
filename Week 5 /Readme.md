@@ -21,3 +21,8 @@ Hard coding was removed from string_wave.c and animate_line_file.py as instructe
 **Configuration** - Configure functions are used to define the total run time/frame interval & time steps, the array of points on the x axis, as well as to create a basic plot for the gif to display using matplotlib.
 
 **Save the animation** - Lastly, this program is used to save the gif animation of the string wave as it oscillates using ani_save()
+
+
+## Part 2 ## 
+
+
