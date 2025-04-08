@@ -2,8 +2,11 @@
 The first part of this assignment involves reshaping the program workspace into a row vector matrix by pushing qubits onto the stack. The Kron function is then used to expand the memory of the Kronecker product of the workspace and qubit weight vector
 
 Pushing Qubits - a pushQubit function which takes in one parameter (weights), this was called to push the weights of the quibits onto the stack, this estentially doubles the workspace with each push.
+
 Reshaping - np.reshape was used to reshape the workspace into a 2D array. Workspace will now have one row and a set number of columns
+
 Kronecker - np.kron is used to determine the products of the reshaped weights and workspace. Kronecker product is a block matrix, where each element of workspace is multiplied by the entire weights matrix.
+
 Workspace - the workspace defines the data type by creating a quantm stack. The empty quantum stack is a matrix of one row and one column containing the nummber.
 
 # Instruction 2 #
