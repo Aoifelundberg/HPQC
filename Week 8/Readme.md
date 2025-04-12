@@ -9,5 +9,5 @@ Grovers algorithm wont ouput an ancilla qubit result but will instead return the
 The black box function being investigates must also be expressed as a phase oracle, implementing a sign change only for solutions to the function. This is similar to the previous function described, however, only qubits with value of 1 will be negated. The procedure should negate the input weights for six qubits if the input is 111101, otherwise the eights will stay the same.To perform this for a 7 qubit input, an x-gate must be used before and after the z-gate. This function is called sample_phaseOracle.
 
 # Main Loop # 
-
+To run the main loop the X, Z, and H gates quantum gates had to be defined. The qubits must then be pushed into the stack with the required gates applied, a tosqubit function was used to iterate through the stack. To do these steps, code from the previous tutorial was used which can be seen described in the week 7 folder. The main loop alternates between running the sample_phaseOracle and zero_phaseOracle while also using the haadmard gate. The zero_phaseOracle is used to amplify the probability amplitude. This program executes the grovers algorithm, iterating through each qubit and assessing the probability. The probailities are seen in the output to converge to the desired output state with each iteration.
 
