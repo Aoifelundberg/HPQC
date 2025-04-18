@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// declares the functions that will be called within main
-// note how declaration lines are similar to the initial line
-// of a function definition, but with a semicolon at the end;
 int check_args(int argc, char **argv);
 void initialise_vector(int vector[], int size, int min, int max);
 void print_vector(int vector[], int size);
@@ -35,7 +32,6 @@ int main(int argc, char **argv)
 	initialise_vector(my_vector, num_arg, min_value, max_value);
 
 
-	// TODO: put some code here that makes a more meaningful vector
 	printf("Vector elements are:\n");
 	print_vector(my_vector, num_arg);
 
