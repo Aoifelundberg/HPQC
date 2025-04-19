@@ -1,9 +1,15 @@
 import torch as pt
+import numpy as np
+Import time 
+
 pt.autograd.set_grad_enabled(False)      # disable autogradients
 if pt.cuda.is_available():               # check if GPU is available
     print("GPU available") 
 else:
     print("Sorry, only CPU available")
+
+workspace = pt.tensor([[1.]], device=pt.device('cuda'), dtype=pt.float32)
+namestack = []
 
 def pushQubit(name,weights):
     global workspace
@@ -57,7 +63,99 @@ def measureQubit(name):                          # Measure and pop qubit
                  np.sqrt(prob[measurement])) 
     namestack.pop()                             # pop stacks
     return measurement
-    
+
+X_gate = np.array([[0, 1],                      # Pauli X gate
+                   [1, 0]])                     # = NOT gate
+
+Y_gate = np.array([[ 0,-1j],                    # Pauli Y gate
+                   [1j,  0]])                   # = SHZHZS
+
+Z_gate = np.array([[1, 0],                      # Pauli Z gate
+                   [0,-1]])                     # = P(pi) = S^2
+                                                # = HXH
+
+H_gate = np.array([[1, 1],                      # Hadamard gate
+                   [1,-1]]) * np.sqrt(1/2)
+
+S_gate = np.array([[1, 0],                      # Phase gate
+                   [0,1j]])                     # = P(pi/2) = T^2
+
+T_gate = np.array([[1,                0],       # = P(pi/4)
+                   [0,np.exp(np.pi/-4j)]])
+
+Tinv_gate = np.array([[1, 0],                   # = P(-pi/4)
+                      [0,np.exp(np.pi/4j)]])    # = T^-1
+
+def P_gate(phi):                                # Phase shift gate
+    return np.array([[1,             0],
+                     [0,np.exp(phi*1j)]])
+
+def Rx_gate(theta):                             # Y rotation gate
+    return np.array([[np.cos(theta/2),-1j*np.sin(theta/2)],
+                     [-1j*np.sin(theta/2),np.cos(theta/2)]])
+
+def Ry_gate(theta):                             # Y rotation gate return
+    np.array([[np.cos(theta/2), -np.sin(theta/2)],
+              [np.sin(theta/2), np.cos(theta/2)]])
+
+def Rz_gate(theta):                             # Z rotation gate
+    return np.array([[np.exp(-1j*theta/2),                0],
+                     [                  0,np.exp(1j*theta/2)]])
+
+CNOT_gate = np.array([[1, 0, 0, 0],             # Ctled NOT gate
+                      [0, 1, 0, 0],             #=XORgate
+                      [0, 0, 0, 1],
+                      [0, 0, 1, 0]])
+
+CZ_gate = np.array([[1, 0, 0, 0],               # Ctled Z gate
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0,-1]])
+
+SWAP_gate = np.array([[1, 0, 0, 0],             # Swap gate
+                      [0, 0, 1, 0],
+                      [0, 1, 0, 0],
+                      [0, 0, 0, 1]])
+
+TOFF_gate = np.array([[1, 0, 0, 0, 0, 0, 0, 0], # Toffoli gate
+                     [0, 1, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 1, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 1, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 1],
+                     [0, 0, 0, 0, 0, 0, 1, 0]])
+
+def zero_phaseOracle(qubits):
+    # if all qubits==0 return -weight else return weight
+    for qubit in qubits:                
+        applyGate(X_gate,qubit)
+    applyGate(Z_gate,*namestack)      
+    for qubit in qubits:                 
+        applyGate(X_gate,qubit)
+
+def sample_phaseOracle(qubits):         
+    applyGate(X_gate,qubits[1])        
+    applyGate(Z_gate,*namestack)       
+    applyGate(X_gate,qubits[1])         
+
+def groverSearch(n, printProb=True):
+    optimalTurns = int(np.pi/4*np.sqrt(2**n)-1/2)   
+    qubits = list(range(n))                        
+    for qubit in qubits:                            
+        pushQubit(qubit,[1,1])
+    for k in range(optimalTurns):                  
+        sample_phaseOracle(qubits)                 
+        for qubit in qubits:                        
+            applyGate(H_gate,qubit)
+        zero_phaseOracle(qubits)                   
+        for qubit in qubits:                       
+            applyGate(H_gate,qubit)
+        if printProb:                          
+            print(probQubit(qubits[0]))             
+    for qubit in reversed(qubits):                  
+        print(measureQubit(qubit),end="")
+
 import time
 workspace = pt.tensor([[1.]],device=pt.device('cuda'),
                              dtype=pt.float32) 
