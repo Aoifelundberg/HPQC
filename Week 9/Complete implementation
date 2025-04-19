@@ -58,9 +58,11 @@ def sample_phaseOracle(qubits):
     applyGate(X_gate,qubits[1])
 
 def zero_phaseOracle(qubits): 
-[applyGate(X_gate,q) for q in qubits] 
-applyGate(Z_gate,*namestack) 
-[applyGate(X_gate,q) for q in qubits]
+    for q in qubits:
+        applyGate(X_gate, q)
+    applyGate(Z_gate, *namestack)
+    for q in qubits:
+        applyGate(X_gate, q)
 
 def groverSearch(n, printProb=True):
     qubits = list(range(n))
