@@ -20,3 +20,6 @@ H,Z and X gates are applied to specific qubits to order then correctly in the st
 
 Grovers search will then initialise n qubits into equal superposition and iterate through the stack. Once enough iterations are performed the qubits are measured. In this case, grovers search is run on 8 qubits so it will search over 2^8 times which equals 256 items.  The amplitude of the correct answer is amplified so that the specific solution is marked clearly.
 
+# Miminal Implementation #
+
+This program is similar to the previous one however it does not print all the qubit measurements, instead only the final grovers algorithm output. This program used a 10 qubit system and a diagonal matrix to flip the amplitude of the states depending on the phase oracle. A 10-bit biary string with the amplified solution is output
